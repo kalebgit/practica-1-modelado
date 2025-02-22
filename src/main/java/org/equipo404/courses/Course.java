@@ -5,6 +5,7 @@ import org.equipo404.fees.CoursesPrice;
 import org.equipo404.fees.Level;
 import org.equipo404.learningmodes.LearningModeStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Course extends CourseRaw implements Subject<Student>{
@@ -15,6 +16,7 @@ public class Course extends CourseRaw implements Subject<Student>{
     public Course(CourseType courseType, Level level, LearningModeStrategy learningMode) {
         super(courseType, level, learningMode);
         this.price = CoursesPrice.getPrice(courseType, level);
+        this.students = new ArrayList<>();
     }
 
     @Override
@@ -30,7 +32,7 @@ public class Course extends CourseRaw implements Subject<Student>{
 
     }
 
-    
+
 
     @Override
     public void sendNotifications(List<String> messages) {
