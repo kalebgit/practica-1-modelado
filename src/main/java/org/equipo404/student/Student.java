@@ -1,11 +1,17 @@
-package org.equipo404;
+package org.equipo404.student;
 
+import org.equipo404.courses.CourseRaw;
+import org.equipo404.util.TerminalUI;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
-public class Student {
+public class Student implements Observer {
     private String name;
     private String email;
     private double availableMoney;
+    private List<CourseRaw> history;
 
     public Student(String name, String email, double availableMoney) {
         this.name = name;
@@ -37,6 +43,11 @@ public class Student {
         this.availableMoney = availableMoney;
     }
 
+    public List<CourseRaw> getHistory() {
+        return history;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -56,5 +67,12 @@ public class Student {
                 ", email='" + email + '\'' +
                 ", saldo=" + availableMoney +
                 '}';
+    }
+
+    /// observer logic
+    @Override
+    public void update(List<String> messages) {
+        TerminalUI.createPixelArtBanner("Anuncioss!!");
+        messages.stream().forEach((message)->System.out.println(TerminalUI.createLogs(message)));
     }
 }
