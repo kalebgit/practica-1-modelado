@@ -7,6 +7,14 @@ import org.equipo404.student.Student;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Clase principal que simula la inscripción y gestión de estudiantes en cursos a lo largo de 9 meses.
+ * Gestiona la creación de cursos, la inscripción de estudiantes, el pago de cursos, y las notificaciones mensuales.
+ * También maneja el proceso de inscripción y cancelación de estudiantes en los cursos según su saldo disponible.
+ * 
+ * @author Emiliano Kaleb Jimenez Rivera, Bedoya Tellez Ariadna Valeria, Sanchez Soto Saul
+ * @version 1.0
+ */
 
 public class Main {
     public static void main(String[] args) {
@@ -70,6 +78,14 @@ public class Main {
             openedCourses.stream().forEach(course->course.sendNotifications(List.of("anuncio de " + course)));
         }
     }
+     /**
+     * Método que procesa el pago de un estudiante por un curso.
+     * Si el estudiante tiene suficiente dinero, se le descuenta el precio del curso.
+     * Si no tiene suficiente dinero, se le da de baja del curso.
+     * 
+     * @param student El estudiante que realiza el pago.
+     * @param course El curso por el cual se realiza el pago.
+     */
 
     private static void processPayment(Student student, Course course) {
         double price = course.getPrice();
