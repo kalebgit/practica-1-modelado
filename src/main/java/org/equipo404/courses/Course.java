@@ -91,6 +91,11 @@ public class Course extends CourseRaw implements Subject<Student>{
         this.price = price;
     }
 
+
+
+    /**
+     * Imprime la antiguedad de cada estudiante inscrito
+     */
     public void printStudentsInfo(){
         students.stream().forEach(student -> System.out.println("\t --->" + student + "tiene antiguedad de " + student.getHistory().get(this) + " meses"));
     }

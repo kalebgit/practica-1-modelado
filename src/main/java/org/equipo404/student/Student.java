@@ -209,6 +209,11 @@ public class Student implements Observer {
             }
     }
 
+    /**
+     * Método para dar de baja al estudiante del curso (@param)
+     *
+     * @param course El curso del que se da de baja.
+     */
     public void unenroll(Course course){
         course.removeElement(this);
     }
