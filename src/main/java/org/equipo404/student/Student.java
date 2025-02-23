@@ -6,10 +6,8 @@ import org.equipo404.courses.CourseRaw;
 import org.equipo404.learningmodes.LearningModeStrategy;
 import org.equipo404.util.TerminalUI;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+
 /**
  * Representa a un estudiante que está inscrito en cursos y puede recibir notificaciones (anuncios).
  * Implementa la interfaz {@link Observer}, lo que permite al estudiante recibir actualizaciones o anuncios enviados
@@ -40,6 +38,7 @@ public class Student implements Observer {
         this.email = email;
         this.availableMoney = availableMoney;
         this.learningMode = learningMode;
+        this.history = new HashMap<>();
     }
     /**
      * Obtiene el nombre del estudiante.

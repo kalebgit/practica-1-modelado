@@ -18,5 +18,15 @@ public enum Level {
      * Representa un nivel inicial,intermedio y avanzado con contenidos fundamentales, avanzados y complejos.
      */
  
-    BASICO, INTERMEDIO, AVANZADO
+    BASICO("basico"), INTERMEDIO("intermedio"), AVANZADO("avanzado");
+
+    private String name;
+
+    Level(String name){
+        this.name = name;
+    }
+
+    public String getName(){
+        return this.name;
+    }
 }

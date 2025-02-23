@@ -4,6 +4,7 @@ import org.equipo404.courses.*;
 import org.equipo404.fees.Level;
 import org.equipo404.learningmodes.*;
 import org.equipo404.student.Student;
+import org.equipo404.util.TerminalUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,64 +19,63 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // registro de cursos abiertos para no abrir todos al inicio de la ejecucion
         List<Course> openedCourses = new ArrayList<>();
 
-        // Creacion de los cursos
-        Course javaAdvanced = new Course(CourseType.PROGRAMACION_JAVA, Level.AVANZADO, new TheoreticalLearning());
-        Course differentialEquationsAdvanced = new Course(CourseType.ECUACIONES_DIFERENCIALES, Level.AVANZADO, new TheoreticalLearning());
-        Course operaSingingAdvanced = new Course(CourseType.CANTO, Level.AVANZADO, new PracticalLearning());
+        // Crear cursos avanzados
+        Course javaAvanzado = new Course(CourseType.PROGRAMACION_JAVA, Level.AVANZADO);
+        Course ecuacionesAvanzado = new Course(CourseType.ECUACIONES_DIFERENCIALES, Level.AVANZADO);
+        Course cantoAvanzado = new Course(CourseType.CANTO, Level.AVANZADO);
 
-        openedCourses.add(javaAdvanced);
-        openedCourses.add(differentialEquationsAdvanced);
-        openedCourses.add(operaSingingAdvanced);
+        openedCourses.add(javaAvanzado);
+        openedCourses.add(ecuacionesAvanzado);
+        openedCourses.add(cantoAvanzado);
 
-        // Todos los estudiantes
-        Student omar = new Student("Omar", "omar@email.com", 5000);
-        Student sara = new Student("Sara", "sara@email.com", 10000);
-        Student maria = new Student("Maria", "maria@email.com", 3000);
+        // Crear estudiantes
+        Student omar = new Student("Omar", "omar@email.com", 5000, new TheoreticalLearning());
+        Student sara = new Student("Sara", "sara@email.com", 10000, new TheoreticalLearning());
+        Student maria = new Student("Maria", "maria@email.com", 3000, new TheoreticalLearning());
 
-        // Agregamos los estudiantes con el patron observer
-        javaAdvanced.addElement(omar);
-        differentialEquationsAdvanced.addElement(omar);
-        operaSingingAdvanced.addElement(omar);
-        differentialEquationsAdvanced.addElement(sara);
-        javaAdvanced.addElement(maria);
+        // Inscribir estudiantes en cursos
+        omar.enrollAndProcessPayment(javaAvanzado);
+        omar.enrollAndProcessPayment(ecuacionesAvanzado);
+        omar.enrollAndProcessPayment(cantoAvanzado);
 
-        // Simulation of 9 months
-        for (int month = 1; month <= 9; month++) {
-            System.out.println("\nMes " + month + "...");
+        sara.enrollAndProcessPayment(ecuacionesAvanzado);
+        maria.enrollAndProcessPayment(javaAvanzado);
 
-            // Omar paga todos sus cursos
-            processPayment(omar, javaAdvanced);
-            processPayment(omar, differentialEquationsAdvanced);
-            processPayment(omar, operaSingingAdvanced);
+        // Simulación de 9 meses
+        for (int mes = 1; mes <= 9; mes++) {
+            System.out.println(TerminalUI.createPixelArtBanner("Mes " + mes));
 
-            // Sara tambien los paga
-            processPayment(sara, differentialEquationsAdvanced);
-
-            // maria cambia de cursos en esos meses
-            if (month == 3) {
-                // se debe crear un nuevo curso cuando se cambia de nivel o modo?
-                // porque sino afectaria a todos los alumnos inscritos en ese curso
-
-            } else if (month == 6) {
+            // Cambios en el modo de aprendizaje de María
+            if (mes == 3) {
+                maria.setLearningMode(new PracticalLearning());
+            } else if (mes == 6) {
+                maria.setLearningMode(new VisualLearning());
             }
 
-            // María cancels her course in month 5
-            if (month == 5) {
-                javaAdvanced.removeElement(maria);
+            // María se da de baja en el mes 5
+            if (mes == 5) {
+                maria.unenroll(javaAvanzado);
             }
 
-            // María re-enrolls in month 8 at intermediate level
-            if (month == 8) {
-                Course javaIntermediate = new Course(CourseType.PROGRAMACION_JAVA, Level.INTERMEDIO, new VisualLearning());
-                openedCourses.add(javaIntermediate);
-                javaIntermediate.addElement(maria);
+            // María se reinscribe en el mes 8 en nivel intermedio
+            if (mes == 8) {
+                Course javaIntermedio = new Course(CourseType.PROGRAMACION_JAVA, Level.INTERMEDIO);
+                openedCourses.add(javaIntermedio);
+                maria.enrollAndProcessPayment(javaIntermedio);
             }
 
-            // Monthly notifications
-            openedCourses.stream().forEach(course->course.sendNotifications(List.of("anuncio de " + course)));
+            // Notificaciones mensuales
+            for (Course course : openedCourses) {
+                course.sendNotifications(List.of("Actualización mensual del curso"));
+            }
+
+            // Imprimir información de estudiantes inscritos
+            for (Course course : openedCourses) {
+                System.out.println(TerminalUI.createLogs("Estudiantes inscritos en " + course.getCourseType().getName() + " nivel " + course.getLevel().getName() + ":"));
+                course.printStudentsInfo();
+            }
         }
     }
 }
