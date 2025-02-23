@@ -30,11 +30,10 @@ public class Course extends CourseRaw implements Subject<Student>{
      * 
      * @param courseType Tipo de curso.
      * @param level Nivel del curso.
-     * @param learningMode Estrategia de modalidad de aprendizaje.
      */
 
-    public Course(CourseType courseType, Level level, LearningModeStrategy learningMode) {
-        super(courseType, level, learningMode);
+    public Course(CourseType courseType, Level level) {
+        super(courseType, level);
         this.price = CoursesPrice.getPrice(courseType, level);
         this.students = new ArrayList<>();
     }
@@ -92,4 +91,7 @@ public class Course extends CourseRaw implements Subject<Student>{
         this.price = price;
     }
 
+    public void printStudentsInfo(){
+        students.stream().forEach(student -> System.out.println("\t --->" + student + "tiene antiguedad de " + student.getHistory().get(this) + " meses"));
+    }
 }

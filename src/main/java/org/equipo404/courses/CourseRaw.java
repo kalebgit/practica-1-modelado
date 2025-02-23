@@ -2,6 +2,9 @@ package org.equipo404.courses;
 
 import org.equipo404.fees.Level;
 import org.equipo404.learningmodes.LearningModeStrategy;
+
+import java.util.Objects;
+
 /**
  * Representa la información base de un curso, incluyendo el tipo de curso, nivel y modalidad de aprendizaje.
  * Esta clase actúa como base para otros tipos de cursos, proporcionando los atributos esenciales
@@ -22,21 +25,15 @@ public class CourseRaw {
      */
     private Level level;
     /**
-     * Modalidad de aprendizaje del curso (por ejemplo, clases en vivo, material grabado).
-     */
-    private LearningModeStrategy learningMode;
-    /**
      * Constructor que inicializa un curso con su tipo, nivel y modalidad de aprendizaje.
      * 
      * @param courseType Tipo de curso (por ejemplo, online, presencial).
      * @param level Nivel del curso (por ejemplo, básico, intermedio, avanzado).
-     * @param learningMode Estrategia de modalidad de aprendizaje (por ejemplo, clases en vivo, material grabado).
      */
 
-    public CourseRaw(CourseType courseType, Level level, LearningModeStrategy learningMode) {
+    public CourseRaw(CourseType courseType, Level level) {
         this.courseType = courseType;
         this.level = level;
-        this.learningMode = learningMode;
     }
     /**
      * Obtiene el nivel del curso.
@@ -74,30 +71,25 @@ public class CourseRaw {
     public void setCourseType(CourseType courseType) {
         this.courseType = courseType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        CourseRaw courseRaw = (CourseRaw) o;
+        return courseType == courseRaw.courseType && level == courseRaw.level;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(courseType, level);
+    }
+
     /**
      * Obtiene la modalidad de aprendizaje del curso.
      * 
      * @return La modalidad de aprendizaje del curso.
      */
 
-    public LearningModeStrategy getLearningMode() {
-        return learningMode;
-    }
-    /**
-     * Establece la modalidad de aprendizaje del curso.
-     * 
-     * @param learningMode La nueva modalidad de aprendizaje para el curso.
-     */
-
-
-    public void setLearningMode(LearningModeStrategy learningMode) {
-        this.learningMode = learningMode;
-    }
-    /**
-     * Representa el curso como una cadena de texto.
-     * 
-     * @return Una representación en formato string del curso.
-     */
 
 
     @Override
@@ -105,7 +97,6 @@ public class CourseRaw {
         return "CourseRaw{" +
                 "courseType=" + courseType +
                 ", level=" + level +
-                ", learningMode=" + learningMode +
                 '}';
     }
 }

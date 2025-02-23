@@ -1,10 +1,14 @@
 package org.equipo404.student;
 
+import com.sun.jdi.IntegerValue;
+import org.equipo404.courses.Course;
 import org.equipo404.courses.CourseRaw;
+import org.equipo404.learningmodes.LearningModeStrategy;
 import org.equipo404.util.TerminalUI;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 /**
  * Representa a un estudiante que está inscrito en cursos y puede recibir notificaciones (anuncios).
@@ -21,7 +25,8 @@ public class Student implements Observer {
     private String name;
     private String email;
     private double availableMoney;
-    private List<CourseRaw> history;
+    private LearningModeStrategy learningMode;
+    private Map<CourseRaw, Integer> history;
     /**
      * Constructor que inicializa un estudiante con su nombre, correo electrónico y dinero disponible.
      * 
@@ -30,10 +35,11 @@ public class Student implements Observer {
      * @param availableMoney Dinero disponible del estudiante.
      */
 
-    public Student(String name, String email, double availableMoney) {
+    public Student(String name, String email, double availableMoney, LearningModeStrategy learningMode) {
         this.name = name;
         this.email = email;
         this.availableMoney = availableMoney;
+        this.learningMode = learningMode;
     }
     /**
      * Obtiene el nombre del estudiante.
@@ -84,13 +90,36 @@ public class Student implements Observer {
     public void setAvailableMoney(double availableMoney) {
         this.availableMoney = availableMoney;
     }
+
+
+
+    public LearningModeStrategy getLearningMode() {
+        return learningMode;
+    }
     /**
-     * Obtiene el historial de cursos del estudiante.
-     * 
-     * @return Lista de cursos anteriores del estudiante.
+     * Establece la modalidad de aprendizaje del alumno.
+     *
+     * @param learningMode La nueva modalidad de aprendizaje para el alumno.
      */
 
-    public List<CourseRaw> getHistory() {
+
+    public void setLearningMode(LearningModeStrategy learningMode) {
+        System.out.println(this + "ha cambiado su estrategia de aprendizaje");
+        this.learningMode = learningMode;
+    }
+    /**
+     * Representa el curso como una cadena de texto.
+     *
+     * @return Una representación en formato string del curso.
+     */
+
+
+    /**
+     * Obtiene el historial de cursos del estudiante.
+     *
+     * @return Mapa de cursos anteriores del estudiante y el Integer los meses en ella.
+     */
+    public Map<CourseRaw, Integer> getHistory() {
         return history;
     }
     /**
@@ -145,4 +174,46 @@ public class Student implements Observer {
         TerminalUI.createPixelArtBanner("Anuncioss!!");
         messages.stream().forEach((message)->System.out.println(TerminalUI.createLogs(message)));
     }
+
+    ///  specific studnet methods
+    public void learn(){
+        this.learningMode.learn();
+    }
+
+
+
+    /**
+     * Método que procesa el pago de un estudiante por un curso.
+     * Si el estudiante tiene suficiente dinero, se le descuenta el precio del curso.
+     * Si no tiene suficiente dinero, se le da de baja del curso.
+     *
+     * @param course El curso por el cual se realiza el pago.
+     */
+    public void enrollAndProcessPayment(Course course){
+            double price = course.getPrice();
+            if (this.getAvailableMoney() >= price) {
+                this.setAvailableMoney(this.getAvailableMoney() - price);
+                course.addElement(this);
+                if(history.keySet().contains(course)){
+
+                    // aumenta en uno los meses de ese curso que ya tenia inscrito
+                    Integer monthsInCourse = history.get(course);
+                    history.put(course, monthsInCourse.intValue() + 1);
+
+                }else{
+                  history.put(course, 1);
+                }
+                System.out.println(this.getName() + " pagó " + price + " por " + course.getCourseType().getName());
+            } else {
+                System.out.println(this.getName() + " no tiene dinero suficiente para " + course.getCourseType().getName() + " y ha sido dado de baja.");
+                course.removeElement(this);
+            }
+    }
+
+    public void unenroll(Course course){
+        course.removeElement(this);
+    }
+
+
+
 }

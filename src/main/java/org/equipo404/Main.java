@@ -78,23 +78,4 @@ public class Main {
             openedCourses.stream().forEach(course->course.sendNotifications(List.of("anuncio de " + course)));
         }
     }
-     /**
-     * Método que procesa el pago de un estudiante por un curso.
-     * Si el estudiante tiene suficiente dinero, se le descuenta el precio del curso.
-     * Si no tiene suficiente dinero, se le da de baja del curso.
-     * 
-     * @param student El estudiante que realiza el pago.
-     * @param course El curso por el cual se realiza el pago.
-     */
-
-    private static void processPayment(Student student, Course course) {
-        double price = course.getPrice();
-        if (student.getAvailableMoney() >= price) {
-            student.setAvailableMoney(student.getAvailableMoney() - price);
-            System.out.println(student.getName() + " pagó " + price + " por " + course.getCourseType().getName());
-        } else {
-            System.out.println(student.getName() + " no tiene dinero suficiente para " + course.getCourseType().getName() + " y ha sido dado de baja.");
-            course.removeElement(student);
-        }
-    }
 }
