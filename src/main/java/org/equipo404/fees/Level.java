@@ -14,8 +14,9 @@ package org.equipo404.fees;
  */
 public enum Level {
     /**
-     * Nivel básico de los cursos.
-     * Representa un nivel inicial con contenidos fundamentales.
+     * Niveles de los cursos.
+     * Representa un nivel inicial,intermedio y avanzado con contenidos fundamentales, avanzados y complejos.
      */
+ 
     BASICO, INTERMEDIO, AVANZADO
 }
