@@ -11,7 +11,7 @@ import java.util.List;
  * Representa un curso con un tipo, nivel y modalidad de aprendizaje.
  * Los estudiantes pueden inscribirse o darse de baja del curso.
  * 
- * @author Saul
+ * @autores: Emiliano Kaleb Jimenez Rivera. Bedoya Tellez Ariadna Valeria. Sanchez Soto Saul
  * @version 1.0
  */
 
