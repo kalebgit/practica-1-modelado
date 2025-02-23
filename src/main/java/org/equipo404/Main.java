@@ -68,7 +68,7 @@ public class Main {
 
             // Notificaciones mensuales
             for (Course course : openedCourses) {
-                course.sendNotifications(List.of("Actualización mensual del curso"));
+                course.sendNotifications(List.of("Actualización mensual del curso " + course));
             }
 
             // Imprimir información de estudiantes inscritos

@@ -18,11 +18,10 @@ public class TerminalUI {
 
     public static String createLogs(String message) {
         return """
-          
-          ┌───────────────────────────────┐
-          │ %s │
-          └───────────────────────────────┘
-        """.formatted( message);    }
+    +-----------------------------------+
+    | %-33s |
+    +-----------------------------------+
+    """.formatted(message);    }
     /**
      * Genera un banner en píxel visual para mostrar un título en consola.
      * El banner incluye un arte previo a mostrar el título que lo rodea con un marco.
@@ -33,16 +32,9 @@ public class TerminalUI {
 
     public static String createPixelArtBanner(String title) {
         return """
-          ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-          ⠀⠀⠀⠀⢀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀
-          ⠀⠀⣠⡾⠛⠉⠉⠉⠙⠻⢦⡀⠀⠀⠀⠀
-          ⠀⣾⠁⣠⡶⢶⡄⠀⢠⡶⣄⢹⡄⠀⠀⠀
-          ⢸⡇⠀⠻⠿⠟⠀⠠⠘⠿⠟⠀⡇⠀⠀⠀
-          ⠸⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡇⠀⠀⠀
-          ⠀⠈⠙⠒⠒⠒⠒⠒⠒⠒⠊⠁⠀⠀⠀⠀
-          
-          ███████████████████████████████████
-          █ %s █
-          ███████████████████████████████████
-        """.formatted(title);    }
+                ****************************************
+                * %-36s *
+                ****************************************
+                """.formatted(title);
+    }
 }
